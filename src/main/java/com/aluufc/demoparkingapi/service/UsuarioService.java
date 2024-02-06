@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.aluufc.demoparkingapi.entity.Usuario;
 import com.aluufc.demoparkingapi.respository.UsuarioRepositorio;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UsuarioService {
@@ -35,4 +37,16 @@ public class UsuarioService {
         );
     }
 
+    @Transactional
+    public Usuario editarSenha(Long id, String password) {
+
+        Usuario user = buscarPorId(id);
+        user.setPassword(password);
+        return user;
+    }
+
+    @Transactional
+    public List<Usuario> getAllUsers(){
+        return usuarioRepositorio.findAll();
+    }
 }

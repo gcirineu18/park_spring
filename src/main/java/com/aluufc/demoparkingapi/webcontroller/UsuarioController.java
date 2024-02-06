@@ -3,22 +3,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aluufc.demoparkingapi.entity.Usuario;
 import com.aluufc.demoparkingapi.service.UsuarioService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
-
+import java.util.List;
 
 
 /*A injeção de dependências para UserService
-* será via método contrutor. */
+* será via método construtor. */
 @RequiredArgsConstructor
 /*
 * Com @RestController o Spring entende que essa
@@ -51,11 +45,21 @@ public class UsuarioController {
      }
 
      @GetMapping("/{id}")
-     public ResponseEntity<Usuario> getById(@PathVariable Long id){
+     public ResponseEntity<Usuario> getById( /* Indica o valor a ser recuperado na url para o controller*/@PathVariable Long id){
                Usuario user = usuarioService.buscarPorId(id);
                return ResponseEntity.ok(user);
      }
-    
-     
+
+     @PatchMapping("/{id}")
+     public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario){
+        Usuario user = usuarioService.editarSenha(id, usuario.getPassword());
+        return ResponseEntity.ok(user);
+     }
+
+     @GetMapping
+     public ResponseEntity <List<Usuario>> getAll(){
+         List<Usuario> users = usuarioService.getAllUsers();
+         return ResponseEntity.ok(users);
+     }
 
 }
