@@ -1,5 +1,9 @@
 package com.aluufc.demoparkingapi.webcontroller;
+import com.aluufc.demoparkingapi.dto.UsuarioResponseDto;
+import com.aluufc.demoparkingapi.dto.UsuarioSenhaDto;
+import com.aluufc.demoparkingapi.dto.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -45,21 +49,28 @@ public class UsuarioController {
      }
 
      @GetMapping("/{id}")
-     public ResponseEntity<Usuario> getById( /* Indica o valor a ser recuperado na url para o controller*/@PathVariable Long id){
+     public ResponseEntity<UsuarioResponseDto> getById( /* Indica o valor a ser recuperado na url para o controller*/@PathVariable Long id){
                Usuario user = usuarioService.buscarPorId(id);
-               return ResponseEntity.ok(user);
+               return ResponseEntity.ok(UsuarioMapper.toDto(user));
      }
 
      @PatchMapping("/{id}")
-     public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario){
-        Usuario user = usuarioService.editarSenha(id, usuario.getPassword());
-        return ResponseEntity.ok(user);
+     public ResponseEntity<String> updatePassword(@PathVariable Long id, @RequestBody UsuarioSenhaDto usuarioSenhaDto){
+        Usuario user = usuarioService.editarSenha(id, usuarioSenhaDto.getSenhaAtual(),usuarioSenhaDto.getNovaSenha(), usuarioSenhaDto.getConfirmaSenha() );
+
+
+        if(user != null){
+            return ResponseEntity.noContent().build();
+            //return ResponseEntity.ok("Senha atualizada");
+        }
+
+        return ResponseEntity.badRequest().body("Falha para atualizar a senha");
      }
 
      @GetMapping
-     public ResponseEntity <List<Usuario>> getAll(){
+     public ResponseEntity <List<UsuarioResponseDto>> getAll(){
          List<Usuario> users = usuarioService.getAllUsers();
-         return ResponseEntity.ok(users);
+          return ResponseEntity.ok(UsuarioMapper.toListDto(users));
      }
 
 }

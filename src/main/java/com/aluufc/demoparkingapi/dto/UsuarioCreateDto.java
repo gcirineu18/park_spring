@@ -1,2 +1,14 @@
-package com.aluufc.demoparkingapi;public class UsuarioCreateDto {
+package com.aluufc.demoparkingapi.dto;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class UsuarioCreateDto {
+
+    private String username;
+    private String password;
 }

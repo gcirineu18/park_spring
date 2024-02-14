@@ -25,12 +25,13 @@ public class Usuario  implements Serializable {
     @Column(name= "username", nullable = false, unique=true, length = 100)
     private  String username;
 
+
     @Column(name = "password", nullable = false, length = 200)
     private  String password;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 25)
-    private Role role;
+    private Role role = Role.ROLE_CLIENT;
 
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
