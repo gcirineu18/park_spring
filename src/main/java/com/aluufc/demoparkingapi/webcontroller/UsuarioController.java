@@ -1,11 +1,11 @@
 package com.aluufc.demoparkingapi.webcontroller;
+import com.aluufc.demoparkingapi.dto.UsuarioCreateDto;
 import com.aluufc.demoparkingapi.dto.UsuarioResponseDto;
 import com.aluufc.demoparkingapi.dto.UsuarioSenhaDto;
 import com.aluufc.demoparkingapi.dto.mapper.UsuarioMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,12 +40,17 @@ public class UsuarioController {
      do tipo usuário. Depois esse objeto usuário será transformado
      num JSON e enviado lá para o cliente.
       */
-     @PostMapping
-     public ResponseEntity<Usuario> create( @RequestBody Usuario usuario){
+     @PostMapping public ResponseEntity<?> create(@Valid @RequestBody UsuarioCreateDto usuarioCreateDto){
 
-          Usuario user = usuarioService.salvar(usuario);
 
-          return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        try{
+            Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(usuarioCreateDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
+        }
+        catch ( Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
      }
 
      @GetMapping("/{id}")
@@ -55,7 +60,7 @@ public class UsuarioController {
      }
 
      @PatchMapping("/{id}")
-     public ResponseEntity<String> updatePassword(@PathVariable Long id, @RequestBody UsuarioSenhaDto usuarioSenhaDto){
+     public ResponseEntity<String> updatePassword(@PathVariable Long id,@Valid @RequestBody UsuarioSenhaDto usuarioSenhaDto){
         Usuario user = usuarioService.editarSenha(id, usuarioSenhaDto.getSenhaAtual(),usuarioSenhaDto.getNovaSenha(), usuarioSenhaDto.getConfirmaSenha() );
 
 
