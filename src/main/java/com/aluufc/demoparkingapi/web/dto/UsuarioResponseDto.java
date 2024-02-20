@@ -1,4 +1,4 @@
-package com.aluufc.demoparkingapi.dto;
+package com.aluufc.demoparkingapi.web.dto;
 
 
 import lombok.*;

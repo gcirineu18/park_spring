@@ -1,8 +1,10 @@
 package com.aluufc.demoparkingapi.service;
 
 
+import com.aluufc.demoparkingapi.exception.UsernameUniqueViolationException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.aluufc.demoparkingapi.entity.Usuario;
@@ -26,8 +28,22 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario){
-       
-        return usuarioRepositorio.save(usuario);
+       try{
+           return usuarioRepositorio.save(usuario);
+       }
+       catch(Exception exception){
+           String message = exception.getMessage();
+
+           if (message.contains("ERRO: duplicar valor da chave viola a restrição de unicidade")) {
+               throw new UsernameUniqueViolationException(String.format("Username {%s} já cadastrado", usuario.getUsername()));
+           }
+           else{
+               throw new DataIntegrityViolationException("");
+           }
+
+       }
+
+
     }
 
     @Transactional

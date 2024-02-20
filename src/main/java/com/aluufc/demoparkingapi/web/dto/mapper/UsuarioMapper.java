@@ -1,7 +1,7 @@
-package com.aluufc.demoparkingapi.dto.mapper;
+package com.aluufc.demoparkingapi.web.dto.mapper;
 
-import com.aluufc.demoparkingapi.dto.UsuarioCreateDto;
-import com.aluufc.demoparkingapi.dto.UsuarioResponseDto;
+import com.aluufc.demoparkingapi.web.dto.UsuarioCreateDto;
+import com.aluufc.demoparkingapi.web.dto.UsuarioResponseDto;
 import com.aluufc.demoparkingapi.entity.Usuario;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

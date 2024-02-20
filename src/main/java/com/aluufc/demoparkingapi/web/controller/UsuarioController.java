@@ -1,8 +1,8 @@
-package com.aluufc.demoparkingapi.webcontroller;
-import com.aluufc.demoparkingapi.dto.UsuarioCreateDto;
-import com.aluufc.demoparkingapi.dto.UsuarioResponseDto;
-import com.aluufc.demoparkingapi.dto.UsuarioSenhaDto;
-import com.aluufc.demoparkingapi.dto.mapper.UsuarioMapper;
+package com.aluufc.demoparkingapi.web.controller;
+import com.aluufc.demoparkingapi.web.dto.UsuarioCreateDto;
+import com.aluufc.demoparkingapi.web.dto.UsuarioResponseDto;
+import com.aluufc.demoparkingapi.web.dto.UsuarioSenhaDto;
+import com.aluufc.demoparkingapi.web.dto.mapper.UsuarioMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
