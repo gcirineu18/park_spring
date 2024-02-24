@@ -1,6 +1,8 @@
 package com.aluufc.demoparkingapi.service;
 
 
+import com.aluufc.demoparkingapi.exception.EntityNotFoundException;
+import com.aluufc.demoparkingapi.exception.PasswordInvalidException;
 import com.aluufc.demoparkingapi.exception.UsernameUniqueViolationException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -40,30 +42,25 @@ public class UsuarioService {
            else{
                throw new DataIntegrityViolationException("");
            }
-
        }
-
-
     }
-
     @Transactional
     public Usuario buscarPorId(Long id){
         return usuarioRepositorio.findById(id).orElseThrow(
-            () -> new RuntimeException("User not found")
+            () -> new EntityNotFoundException(String.format("User id = %s not found", id))
         );
     }
 
     @Transactional
     public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
         if(!novaSenha.equals(confirmaSenha)){
-            throw new RuntimeException("Nova senha não confere com a confirmação de senha.");
+            throw new PasswordInvalidException("Nova senha não confere com a confirmação de senha.");
         }
 
         Usuario user = buscarPorId(id);
 
         if(!user.getPassword().equals(senhaAtual)){
-            throw new RuntimeException("Sua senha não confere.");
-
+            throw new PasswordInvalidException("Sua senha não confere.");
         }
         user.setPassword(novaSenha);
         return user;
