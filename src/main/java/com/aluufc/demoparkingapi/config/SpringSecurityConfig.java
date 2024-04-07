@@ -34,6 +34,48 @@ public class SpringSecurityConfig {
     /*A anotação @Bean é usada para indicar que um método de
      uma classe de configuração retorna um objeto que deve ser
      gerenciado pelo contêiner Spring.*/
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
+                .authorizeHttpRequests(auth ->
+                        //    requestMatchers define permissões de acesso
+                        auth.requestMatchers(
+                                antMatcher(HttpMethod.POST, "/api/v1/usuarios"),
+                                antMatcher(HttpMethod.POST, "/api/v1/auth"),
+                                antMatcher("/docs-park.html"),
+                                antMatcher("/docs-park/**"),
+                                antMatcher("/swagger-ui.html"),
+                                antMatcher("/swagger-ui/**"),
+                                antMatcher("/webjars/**")
+                        ).permitAll().anyRequest().authenticated())
+                // auth.anyRequest().permitAll())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                ).addFilterBefore(
+                        jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
+                ).exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                ).build();
+    }
+
+
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
 
 
 /*
@@ -57,47 +99,5 @@ public class SpringSecurityConfig {
                 ).build();
     }
 */
-    @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable())
-                .authorizeHttpRequests(auth ->
-                        //    requestMatchers define permissões de acesso
-                        auth.requestMatchers(
-                            antMatcher(HttpMethod.POST, "/api/v1/usuarios"),
-                            antMatcher(HttpMethod.POST, "/api/v1/auth"),
-                            antMatcher("/docs-park.html"),
-                            antMatcher("/docs-park/**"),
-                            antMatcher("/swagger-ui.html"),
-                            antMatcher("/swagger-ui/**"),
-                            antMatcher("/webjars/**")
-                        ).permitAll().anyRequest().authenticated())
-                // auth.anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ).addFilterBefore(
-                        jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
-                ).exceptionHandling(ex -> ex
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                ).build();
-    }
-
  
 }
