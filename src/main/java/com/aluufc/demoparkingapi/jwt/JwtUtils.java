@@ -21,14 +21,12 @@ import java.util.Date;
 @Slf4j
 public class JwtUtils {
 
-    public static final String JWT_BEARER = "Bearer ";
     public static final String JWT_AUTHORIZATION = "Authorization";
-    public static final String SECRET_KEY = "5348743678-46738475867-39482730193";
-
+    public static final String JWT_BEARER = "Bearer ";
+    public static final String SECRET_KEY = "5348743678-46738475867-394827301";
     public static final long EXPIRE_DAYS = 0;
     public static final long  EXPIRE_HOURS = 0;
-
-    public static final long EXPIRE_MINUTES = 2;
+    public static final long EXPIRE_MINUTES = 12;
 
     private  JwtUtils(){}
 
@@ -46,12 +44,11 @@ public class JwtUtils {
        Date limit = toExpireDate(issuedAt);
 
        String token = Jwts.builder()
-               .header().add("typ", "JWT")
-               .and()
-               .subject(username)
-               .issuedAt(issuedAt)
-               .expiration(limit)
-               .signWith(generateKey())
+               .setHeaderParam("typ","JWT")
+               .setSubject(username)
+               .setIssuedAt(issuedAt)
+               .setExpiration(limit)
+               .signWith(generateKey(),SignatureAlgorithm.HS256)
                .claim("role", role) // Adicionar alguma info no token que não tenha um métodos específico
                .compact() ;
        return new JwtToken(token);
@@ -62,10 +59,10 @@ public class JwtUtils {
     * */
     private static Claims getClaimsFromToken(String  token){
         try{
-            return Jwts.parser()
-                    .verifyWith(generateKey())
-                    .build()
-                    .parseSignedClaims(refactorToken(token)).getPayload();
+            return Jwts.parserBuilder()
+                    .setSigningKey(generateKey()).build()
+                    .parseClaimsJws(refactorToken(token)).getBody();
+
         } catch(JwtException e){
             log.error(String.format("Token invalido %s", e.getMessage()));
         }
@@ -78,10 +75,10 @@ public class JwtUtils {
 
     public static boolean isTokenValid(String token){
          try {
-             Jwts.parser()
-                     .verifyWith(generateKey())
-                     .build()
-                     .parseSignedClaims(refactorToken(token));
+              Jwts.parserBuilder()
+                     .setSigningKey(generateKey()).build()
+                     .parseClaimsJws(refactorToken(token)).getBody();
+
              return true;
          } catch (JwtException e){
              log.error(String.format("Token invaliso %s", e.getMessage()));

@@ -2,6 +2,8 @@ package com.aluufc.demoparkingapi.web.dto;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,7 +11,7 @@ import lombok.*;
 @ToString
 public class UsuarioResponseDto {
 
-    private Long id;
+    private UUID id;
     private String username;
     private String role;
 }

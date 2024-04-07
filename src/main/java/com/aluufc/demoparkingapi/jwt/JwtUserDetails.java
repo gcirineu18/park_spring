@@ -1,9 +1,11 @@
 package com.aluufc.demoparkingapi.jwt;
 
 import com.aluufc.demoparkingapi.entity.Usuario;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
+import java.util.UUID;
 
 import java.util.Collection;
 
@@ -20,9 +22,7 @@ public class JwtUserDetails extends User {
         this.usuario = usuario;
     }
 
-    public Long getId(){
-        return this.usuario.getId();
-    }
+    public UUID getId(){ return this.usuario.getId();}
 
     public String getRole(){
         return this.usuario.getRole().name();
