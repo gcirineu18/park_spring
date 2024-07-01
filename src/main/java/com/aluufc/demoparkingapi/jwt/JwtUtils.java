@@ -10,10 +10,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -30,7 +28,7 @@ public class JwtUtils {
 
     private  JwtUtils(){}
 
-    private static SecretKey generateKey(){
+    private static Key generateKey(){
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
     private static Date toExpireDate(Date start){
@@ -81,7 +79,7 @@ public class JwtUtils {
 
              return true;
          } catch (JwtException e){
-             log.error(String.format("Token invaliso %s", e.getMessage()));
+             log.error(String.format("Token invalido %s", e.getMessage()));
 
          }
          return false;

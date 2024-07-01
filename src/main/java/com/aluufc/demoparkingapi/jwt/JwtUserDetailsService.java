@@ -3,7 +3,6 @@ package com.aluufc.demoparkingapi.jwt;
 
 import com.aluufc.demoparkingapi.entity.Usuario;
 import com.aluufc.demoparkingapi.service.UsuarioService;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

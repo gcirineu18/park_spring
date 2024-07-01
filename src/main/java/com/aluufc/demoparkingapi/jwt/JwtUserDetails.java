@@ -1,13 +1,10 @@
 package com.aluufc.demoparkingapi.jwt;
 
 import com.aluufc.demoparkingapi.entity.Usuario;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import java.util.UUID;
 
-import java.util.Collection;
 
 /*
 * Este é o objeto o qual o Spring utiliza

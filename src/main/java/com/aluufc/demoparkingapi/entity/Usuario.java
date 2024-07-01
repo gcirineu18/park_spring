@@ -22,7 +22,7 @@ import java.util.UUID;
 public class Usuario implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid2")
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private UUID id;
     @Column(name = "username", nullable = false, unique = true, length = 100)
     private String username;

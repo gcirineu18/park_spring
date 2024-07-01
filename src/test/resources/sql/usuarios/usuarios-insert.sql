@@ -1,3 +1,3 @@
-insert into USUARIOS (id, username, password, role) values ('56b95d51-cdad-4b38–9795–6ecdeebba6a6', 'ana@email.com', '123456', 'ROLE_ADMIN');
-insert into USUARIOS (id, username, password, role) values ('56b95d51-cdad-4b38–9795–6ecdeebba6a7', 'bia@email.com', '123456', 'ROLE_CLIENT');
-insert into USUARIOS (id, username, password, role) values ('56b95d51-cdad-4b38–9795–6ecdeebba6a8', 'bob@email.com', '123456', 'ROLE_CLIENT');
+insert into USUARIOS (id, username, password, role) values ('07ce9e8f-c278-42e5-80a5-5b028bc6d55e', 'ana@email.com', '$2a$10$l7GPMFkbKeZQ5oHtygt2COpzXlbeHJdFKGbpeBImglb1bZM5DeYR.', 'ROLE_ADMIN');
+insert into USUARIOS (id, username, password, role) values ('5896f50a-45f2-4780-8367-bc3a667ddd74', 'bia@email.com', '$2a$10$0.Hwv0WezoA6Mm1nzuUj2eTpdZzqT2WKbuQgs/v6Nhp77Zb5bMxTW', 'ROLE_CLIENT');
+insert into USUARIOS (id, username, password, role) values ('23af9fde-1159-4d50-8775-d2f72365a810', 'bob@email.com', '$2a$10$o2n0kR6V2vN4OOWeMV7Oiec8VoeXvw5dQ6TnNRn9NZ86K/oX9rN4e', 'ROLE_CLIENT');
